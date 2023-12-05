@@ -44,10 +44,11 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
 
-- stage: Deploy
+- stage: DeployDev
   jobs:
-  - deployment: DeployWeb
+  - deployment: DeployDev
     displayName: deploy Web App
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     pool:
       vmImage: ubuntu-latest
     environment: 'web-dev'
